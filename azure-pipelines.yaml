@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  name: "self-hosted"
+  name: "Default"
 
 steps:
   
