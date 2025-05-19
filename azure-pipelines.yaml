@@ -14,7 +14,7 @@ steps:
   - task: Docker@2
     displayName: 'Build and push container'
     inputs:
-      containerRegistry: 'nitzanm594'
+      containerRegistry: 'dockerhub'
       repository: 'weatherapp-tsg'
       command: 'buildAndPush'
       Dockerfile: '**/weatherapp.dockerfile'
