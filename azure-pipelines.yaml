@@ -15,7 +15,7 @@ steps:
     displayName: 'Build and push container'
     inputs:
       containerRegistry: 'dockerhub'
-      repository: 'weatherapp-tsg'
+      repository: 'nitzanm594/weatherapp-tsg'
       command: 'buildAndPush'
       Dockerfile: '**/weatherapp.dockerfile'
       tags: |
