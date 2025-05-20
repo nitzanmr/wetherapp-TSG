@@ -32,7 +32,7 @@ steps:
     inputs:
       script: |
         # Clone the repository using the service connection
-        git clone "https://$(SYSTEM_ACCESSTOKEN)@github.com/nitzanmr/helm-weather-tsg.git" helm_repo
+        git clone "https://$SYSTEM_ACCESSTOKEN@github.com/nitzanmr/helm-weather-tsg.git" helm_repo
         cd helm_repo
         
         # Update values.yaml with new build number
