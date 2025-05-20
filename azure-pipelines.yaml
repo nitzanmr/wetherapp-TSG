@@ -18,6 +18,7 @@ steps:
       repository: 'nitzanm594/weatherapp-tsg'
       command: 'buildAndPush'
       Dockerfile: '**/weatherapp.dockerfile'
+      arguments: '--no-cache'
       tags: |
         $(Build.BuildId)
         latest
