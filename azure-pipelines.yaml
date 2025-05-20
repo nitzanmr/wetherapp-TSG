@@ -21,3 +21,30 @@ steps:
       tags: |
         $(Build.BuildId)
         latest
+  
+  # Disable default checkout
+  - checkout: none
+    displayName: 'Clear default checkout'
+  
+
+  - task: CmdLine@2
+    displayName: 'Update Helm chart values and push changes'
+    inputs:
+      script: |
+        # Clone the repository using the service connection
+        git clone "https://$(SYSTEM_ACCESSTOKEN)@github.com/nitzanmr/helm-weather-tsg.git" helm_repo
+        cd helm_repo
+        
+        # Update values.yaml with new build number
+        sed -i "s/tag: \".*\"/tag: \"$(Build.BuildId)\"/g" values.yaml
+        
+        # Configure Git
+        git config --global user.email "nitzanmr@gmail.com"
+        git config --global user.name "Azure DevOps CI"
+        
+        # Commit and push changes
+        git add values.yaml
+        git commit -m "Updated version in values to $(Build.BuildId)"
+        git push origin HEAD:main
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)   

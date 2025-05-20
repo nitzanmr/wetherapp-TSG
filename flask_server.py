@@ -10,9 +10,9 @@ _is_initialized = False
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config['APPLICATION_ROOT'] = '/weather'
 Session(app)
 load_dotenv()
-
 def get_vault_client():
     vault_url = os.environ.get('VAULT_ADDR', 'http://72.146.232.109:8200')
     client = hvac.Client(url=vault_url)

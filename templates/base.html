@@ -58,7 +58,7 @@
   <h1>Welcome to {{ title }}!</h1>
 
   <div class="form-container">
-    <form action="{{ url_for('get_results') }}" method="get">
+    <form action="/weather/results" method="get">
         <label for="CountryName">Country name:</label>
         <input type="text" id="CountryName" name="Country_Name" required>
         <button id="submitButton" type="submit">Submit</button>
