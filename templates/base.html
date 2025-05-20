@@ -5,8 +5,7 @@
   <title>{{ title }}</title>
   <style>
     body {
-      /* Use the bg_color variable passed from Flask */
-      background-color: {{ bg_color | safe }}; /* Use 'safe' filter if color values might contain chars needing escaping, though unlikely for standard colors */
+      background-color: {{ bg_color | safe }}; 
       font-family: sans-serif;
       padding: 20px;
     }
