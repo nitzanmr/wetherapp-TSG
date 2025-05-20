@@ -47,4 +47,4 @@ steps:
         git commit -m "Updated version in values to $(Build.BuildId)"
         git push origin HEAD:main
     env:
-      SYSTEM_ACCESSTOKEN: $(System.AccessToken)   
+      SYSTEM_ACCESSTOKEN: $(AccessToken)   
