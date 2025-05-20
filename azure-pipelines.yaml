@@ -1,0 +1,85 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  name: "Default"
+
+steps:
+  
+  - task: Docker@2
+    displayName: 'Build and push container'
+    inputs:
+      containerRegistry: 'dockerhub'
+      repository: 'nitzanm594/weatherapp-tsg'
+      command: 'buildAndPush'
+      Dockerfile: '**/weatherapp.dockerfile'
+      arguments: '--no-cache'
+      tags: |
+        $(Build.BuildId)
+        latest
+  
+  # Disable default checkout
+  - checkout: none
+    displayName: 'Clear default checkout'
+  
+
+  - task: CmdLine@2
+    displayName: 'Update Helm chart values and push changes'
+    inputs:
+      script: |
+        # Clone the repository using the service connection
+        git clone "https://$SYSTEM_ACCESSTOKEN@github.com/nitzanmr/helm-weather-tsg.git" helm_repo
+        cd helm_repo
+        
+        # Update values.yaml with new build number
+        sed -i "s/tag: \".*\"/tag: \"$(Build.BuildId)\"/g" values.yaml
+        
+        # Configure Git
+        git config --global user.email "nitzanmr@gmail.com"
+        git config --global user.name "Azure DevOps CI"
+        
+        # Commit and push changes
+        git add values.yaml
+        git commit -m "Updated version in values to $(Build.BuildId)"
+        git push origin HEAD:main
+    env:
+      SYSTEM_ACCESSTOKEN: $(AccessToken)   
+
+    
+  - task: CmdLine@2
+    displayName: 'Cleanup workspace and resources'
+    condition: always() 
+    inputs:
+      script: |
+        echo "Starting comprehensive cleanup process..."
+        
+        # Remove the cloned Helm repository
+        if [ -d "helm_repo" ]; then
+          echo "Removing helm_repo directory..."
+          rm -rf helm_repo
+        fi
+        
+        cd $(Agent.BuildDirectory) || cd $(System.DefaultWorkingDirectory)
+        
+        # Delete Git credentials 
+        git config --global --unset user.email || true
+        git config --global --unset user.name || true
+        
+        # Clean old images of weatherapp-tsg
+        OLD_IMAGES=$(docker images -q nitzanm594/weatherapp-tsg --filter "before=nitzanm594/weatherapp-tsg:$(Build.BuildId)")
+        if [ ! -z "$OLD_IMAGES" ]; then
+          docker rmi $OLD_IMAGES || true
+        fi
+                
+        find $(Agent.TempDirectory) -name "tmp_*" -type d -exec rm -rf {} + 2>/dev/null || true
+        
+        # Clean credentials
+        echo "Cleaning sensitive information..."
+        unset GH_PAT
+        
+        echo "Cleanup completed successfully."

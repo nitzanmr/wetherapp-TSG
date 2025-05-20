@@ -5,8 +5,7 @@
   <title>{{ title }}</title>
   <style>
     body {
-      /* Use the bg_color variable passed from Flask */
-      background-color: {{ bg_color | safe }}; /* Use 'safe' filter if color values might contain chars needing escaping, though unlikely for standard colors */
+      background-color: {{ bg_color | safe }}; 
       font-family: sans-serif;
       padding: 20px;
     }
@@ -58,12 +57,13 @@
   <h1>Welcome to {{ title }}!</h1>
 
   <div class="form-container">
-    <form action="{{ url_for('get_results') }}" method="get">
+    <form action="/weather/results" method="get">
         <label for="CountryName">Country name:</label>
         <input type="text" id="CountryName" name="Country_Name" required>
         <button id="submitButton" type="submit">Submit</button>
     </form>
   </div>
 
+  
 </body>
 </html>

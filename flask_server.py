@@ -71,7 +71,7 @@ def get_results():
 
     country_name = request.args.get('Country_Name')
     if country_name == "":
-        redirect(url_for("home"))
+        redirect("/weather")
     if not session.get(country_name):
         print(country_name)
         json_val = send_api_request(country_name)
