@@ -23,8 +23,8 @@ steps:
         latest
   
   # Disable default checkout
-  - checkout: none
-    displayName: 'Clear default checkout'
+  #- checkout: none
+  #  displayName: 'Clear default checkout'
   
 
   - task: CmdLine@2
