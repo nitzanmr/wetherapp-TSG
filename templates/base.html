@@ -1,69 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>{{ title }}</title>
-  <style>
-    body {
-      background-color: {{ bg_color | safe }}; 
-      font-family: sans-serif;
-      padding: 20px;
-    }
-    h1 {
-        text-align: center;
-        color: #333;
-    }
-    .form-container {
-        text-align: center;
-        margin-top: 20px;
-    }
-    label {
-        margin-right: 5px;
-    }
-    input[type="text"] {
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-    button, .button-link {
-        padding: 8px 15px;
-        margin-left: 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 1em;
-        vertical-align: middle;
-    }
-    #submitButton {
-        background-color: #007bff;
-        color: white;
-    }
-    #submitButton:hover {
-        background-color: #0056b3;
-    }
-    .button-link {
-        display: inline-block;
-        background-color: #6c757d;
-        color: white;
-        text-decoration: none;
-    }
-    .button-link:hover {
-        background-color: #5a6268;
-        color: white;
-    }
-  </style>
+<meta charset="utf-8">
+<title>{{ title }}</title>
+<style>
+body {
+background-color: {{ bg_color | safe }};
+font-family: sans-serif;
+ padding: 20px;
+ }
+h1 {
+text-align: center;
+color: #333;
+ }
+.form-container {
+text-align: center;
+margin-top: 20px;
+ }
+label {
+margin-right: 5px;
+ }
+input[type="text"] {
+padding: 8px;
+border: 1px solid #ccc;
+border-radius: 4px;
+ }
+button, .button-link {
+padding: 8px 15px;
+margin-left: 10px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+font-size: 1em;
+vertical-align: middle;
+ }
+#submitButton {
+background-color: #007bff;
+color: white;
+ }
+#submitButton:hover {
+background-color: #0056b3;
+ }
+.button-link {
+display: inline-block;
+background-color: #6c757d;
+color: white;
+text-decoration: none;
+ }
+.button-link:hover {
+background-color: #5a6268;
+color: white;
+ }
+.secret-value {
+margin: 20px auto;
+padding: 10px;
+background-color: #f8f9fa;
+border: 1px solid #dee2e6;
+border-radius: 4px;
+text-align: center;
+max-width: 80%;
+}
+</style>
 </head>
 <body>
-  <h1>Welcome to {{ title }}!</h1>
+<h1>Welcome to {{ title }}!</h1>
 
-  <div class="form-container">
-    <form action="/weather/results" method="get">
-        <label for="CountryName">Country name:</label>
-        <input type="text" id="CountryName" name="Country_Name" required>
-        <button id="submitButton" type="submit">Submit</button>
-    </form>
-  </div>
+<!-- Added section to display the SuperSecret variable -->
+<div class="secret-value">
+    <p><strong>SuperSecret Value:</strong> {{ SuperSecret }}</p>
+</div>
 
-  
+<div class="form-container">
+<form action="/weather/results" method="get">
+<label for="CountryName">Country name:</label>
+<input type="text" id="CountryName" name="Country_Name" required>
+<button id="submitButton" type="submit">Submit</button>
+</form>
+</div>
 </body>
 </html>

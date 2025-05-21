@@ -54,6 +54,11 @@ def configure_app():
         weather_api = get_secret('myapp/config', 'weather_api')
         if weather_api:
             app.config['weather_api'] = weather_api
+        
+        # Get other secrets if needed
+        SuperSecret = get_secret('myapp/config', 'SuperSecret')
+        if SuperSecret:
+            app.config['SuperSecret'] = SuperSecret
         _is_initialized = True
 
 
@@ -86,9 +91,11 @@ def get_results():
         returned_dict = session.get(country_name)
         return render_template('weather_for_country.html', Title=country_name, Start_Time=list(returned_dict.items())[0][0], End_Time=list(returned_dict.items())[-1][0], Week_Forcast=returned_dict.items())
 
+
 @app.route("/")
 def home():
-    return render_template('base.html', title="Weather forcast with nitzan", cur_ip="0.0.0.0")
+    # Pass the SuperSecret value to the template
+    return render_template('base.html', title="Weather forcast with nitzan", cur_ip="0.0.0.0", SuperSecret=app.config.get('SuperSecret', 'No secret available'))
 
 
 if __name__ == "__main__":
